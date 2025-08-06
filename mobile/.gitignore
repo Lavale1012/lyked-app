@@ -353,6 +353,23 @@ metrics/
 backup_*
 
 # =============================================================================
+# DOCUMENTATION & INTERNAL FILES
+# =============================================================================
+
+# Internal documentation and development guides
+FRONTEND_ROADMAP.md
+DEBUG_GUIDE.md
+HOMESCREEN_REDESIGN.md
+
+# Development guides and internal notes
+*.internal.md
+development-*.md
+
+# Keep README files
+!README.md
+!README*.md
+
+# =============================================================================
 # NOTES & COMMENTS
 # =============================================================================
 

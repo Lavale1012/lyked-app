@@ -261,6 +261,23 @@ migrations/production/
 seed_data/production/
 
 # =============================================================================
+# DOCUMENTATION & INTERNAL FILES
+# =============================================================================
+
+# Internal documentation and generated files
+BACKEND_ROADMAP.md
+BACKEND_ROADMAP.html
+BACKEND_ROADMAP_files/
+
+# Development guides and internal notes
+*.internal.md
+development-*.md
+
+# Keep README files
+!README.md
+!README*.md
+
+# =============================================================================
 # NOTES & COMMENTS
 # =============================================================================
 
