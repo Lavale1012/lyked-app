@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>backend_roadmap</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="BACKEND_ROADMAP_files/libs/clipboard/clipboard.min.js"></script>
+<script src="BACKEND_ROADMAP_files/libs/quarto-html/quarto.js"></script>
+<script src="BACKEND_ROADMAP_files/libs/quarto-html/popper.min.js"></script>
+<script src="BACKEND_ROADMAP_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="BACKEND_ROADMAP_files/libs/quarto-html/anchor.min.js"></script>
+<link href="BACKEND_ROADMAP_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="BACKEND_ROADMAP_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="BACKEND_ROADMAP_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="BACKEND_ROADMAP_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="BACKEND_ROADMAP_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="lyked-backend-roadmap" class="level1">
+<h1>🚀 Lyked Backend Roadmap</h1>
+<section id="current-state-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="current-state-analysis">Current State Analysis</h2>
+<section id="whats-working" class="level3">
+<h3 class="anchored" data-anchor-id="whats-working">✅ What’s Working</h3>
+<ul>
+<li>Go + Gin web framework setup with proper routing</li>
+<li>Dual database architecture: MongoDB for media/folders, PostgreSQL for users</li>
+<li>MongoDB v2 driver properly configured</li>
+<li>Basic upload handlers implemented (Create, Read, Delete)</li>
+<li>CORS configuration for Expo development</li>
+<li>Environment variable loading with utils.GetEnv()</li>
+<li>Modular structure: handlers, routes, models, utilities separated</li>
+</ul>
+</section>
+<section id="current-issues-limitations" class="level3">
+<h3 class="anchored" data-anchor-id="current-issues-limitations">🚧 Current Issues &amp; Limitations</h3>
+<ul>
+<li>No authentication middleware - all endpoints are public</li>
+<li>Missing JWT token generation and validation</li>
+<li>Delete endpoint has bug: using string comparison instead of ObjectID</li>
+<li>No folder management endpoints implemented</li>
+<li>Missing input validation and sanitization</li>
+<li>No rate limiting or security headers</li>
+<li>Error responses lack proper structure and logging</li>
+<li>No database connection pooling or optimization</li>
+<li>Missing health checks and monitoring</li>
+<li>No API documentation (OpenAPI/Swagger)</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="development-roadmap" class="level2">
+<h2 class="anchored" data-anchor-id="development-roadmap">🎯 Development Roadmap</h2>
+<section id="phase-1-authentication-security" class="level3">
+<h3 class="anchored" data-anchor-id="phase-1-authentication-security">Phase 1: Authentication &amp; Security</h3>
+<p><strong>Priority: Critical</strong> | <strong>Estimated Time: 1-2 weeks</strong></p>
+<section id="jwt-authentication-system" class="level4">
+<h4 class="anchored" data-anchor-id="jwt-authentication-system">1.1 JWT Authentication System</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>JWT Token Management</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Install JWT library: <code>go get github.com/golang-jwt/jwt/v5</code></label></li>
+<li><label><input type="checkbox">Create JWT utility functions:</label>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>GenerateToken(userID string) (string, error)</code></label></li>
+<li><label><input type="checkbox"><code>ValidateToken(tokenString string) (*Claims, error)</code></label></li>
+<li><label><input type="checkbox"><code>RefreshToken(tokenString string) (string, error)</code></label></li>
+</ul></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Authentication Middleware</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Create <code>AuthMiddleware()</code> function</label></li>
+<li><label><input type="checkbox">Extract and validate JWT from Authorization header</label></li>
+<li><label><input type="checkbox">Add user context to Gin context for downstream handlers</label></li>
+<li><label><input type="checkbox">Handle expired tokens with proper error responses</label></li>
+</ul></li>
+</ul>
+<p><strong>Implementation Details:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode go code-with-copy"><code class="sourceCode go"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// middleware/jwt.go</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Claims <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    UserID <span class="dt">string</span> <span class="st">`json:"user_id"`</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    jwt<span class="op">.</span>RegisteredClaims</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> AuthMiddleware<span class="op">()</span> gin<span class="op">.</span>HandlerFunc <span class="op">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">func</span><span class="op">(</span>c <span class="op">*</span>gin<span class="op">.</span>Context<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Extract token from Authorization header</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Validate token and extract claims</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Set user context for handlers</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Handle errors with proper HTTP responses</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="user-authentication-endpoints" class="level4">
+<h4 class="anchored" data-anchor-id="user-authentication-endpoints">1.2 User Authentication Endpoints</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>User Registration &amp; Login</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>POST /auth/register</code> - Create new user account</label></li>
+<li><label><input type="checkbox"><code>POST /auth/login</code> - Authenticate user credentials</label></li>
+<li><label><input type="checkbox"><code>POST /auth/refresh</code> - Refresh expired JWT token</label></li>
+<li><label><input type="checkbox"><code>POST /auth/logout</code> - Invalidate token (blacklist)</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Password Management</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Hash passwords using bcrypt: <code>go get golang.org/x/crypto/bcrypt</code></label></li>
+<li><label><input type="checkbox"><code>POST /auth/forgot-password</code> - Send password reset email</label></li>
+<li><label><input type="checkbox"><code>POST /auth/reset-password</code> - Reset password with token</label></li>
+<li><label><input type="checkbox"><code>PUT /auth/change-password</code> - Change password (authenticated)</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>User Profile Management</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>GET /users/profile</code> - Get current user profile</label></li>
+<li><label><input type="checkbox"><code>PUT /users/profile</code> - Update user profile</label></li>
+<li><label><input type="checkbox"><code>DELETE /users/account</code> - Delete user account and data</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="security-hardening" class="level4">
+<h4 class="anchored" data-anchor-id="security-hardening">1.3 Security Hardening</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Input Validation &amp; Sanitization</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Install validation library: <code>go get github.com/go-playground/validator/v10</code></label></li>
+<li><label><input type="checkbox">Create validation structs for all request bodies</label></li>
+<li><label><input type="checkbox">Implement custom validation rules for URLs, tags, etc.</label></li>
+<li><label><input type="checkbox">Sanitize user input to prevent XSS/injection attacks</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Security Headers &amp; Middleware</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Add security headers (HSTS, CSP, X-Frame-Options)</label></li>
+<li><label><input type="checkbox">Implement rate limiting: <code>go get github.com/gin-contrib/timeout</code></label></li>
+<li><label><input type="checkbox">Add request size limits</label></li>
+<li><label><input type="checkbox">Implement CSRF protection for web clients</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Database Security</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Use parameterized queries to prevent injection</label></li>
+<li><label><input type="checkbox">Implement proper error handling without data leakage</label></li>
+<li><label><input type="checkbox">Add database connection encryption (SSL/TLS)</label></li>
+<li><label><input type="checkbox">Implement query timeout and connection limits</label></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-2-core-api-development" class="level3">
+<h3 class="anchored" data-anchor-id="phase-2-core-api-development">Phase 2: Core API Development</h3>
+<p><strong>Priority: Critical</strong> | <strong>Estimated Time: 2-3 weeks</strong></p>
+<section id="complete-upload-management" class="level4">
+<h4 class="anchored" data-anchor-id="complete-upload-management">2.1 Complete Upload Management</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Fix Existing Upload Handlers</strong></label></p>
+<ul class="task-list">
+<li><p><label><input type="checkbox">Fix DeleteUploadHandler ObjectID conversion bug:</label></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go code-with-copy"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Current (broken):</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>collection<span class="op">.</span>DeleteOne<span class="op">(</span>ctx<span class="op">,</span> primitive<span class="op">.</span>M<span class="op">{</span><span class="st">"_id"</span><span class="op">:</span> id<span class="op">})</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Fixed:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>objectID<span class="op">,</span> _ <span class="op">:=</span> primitive<span class="op">.</span>ObjectIDFromHex<span class="op">(</span>id<span class="op">)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>collection<span class="op">.</span>DeleteOne<span class="op">(</span>ctx<span class="op">,</span> primitive<span class="op">.</span>M<span class="op">{</span><span class="st">"_id"</span><span class="op">:</span> objectID<span class="op">})</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Enhanced Upload Validation</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Validate URL format and accessibility</label></li>
+<li><label><input type="checkbox">Check for duplicate URLs per user</label></li>
+<li><label><input type="checkbox">Validate title length and content</label></li>
+<li><label><input type="checkbox">Sanitize description and tag inputs</label></li>
+<li><label><input type="checkbox">Implement file size limits for media URLs</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Upload Metadata Enhancement</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Add creation/modification timestamps</label></li>
+<li><label><input type="checkbox">Implement user ownership validation</label></li>
+<li><label><input type="checkbox">Add view count tracking</label></li>
+<li><label><input type="checkbox">Support for custom thumbnail URLs</label></li>
+<li><label><input type="checkbox">Add media type detection (image/video/link)</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="folder-management-system" class="level4">
+<h4 class="anchored" data-anchor-id="folder-management-system">2.2 Folder Management System</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Folder CRUD Operations</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>POST /folders</code> - Create new folder</label></li>
+<li><label><input type="checkbox"><code>GET /folders</code> - List user’s folders</label></li>
+<li><label><input type="checkbox"><code>GET /folders/:id</code> - Get folder details with contents</label></li>
+<li><label><input type="checkbox"><code>PUT /folders/:id</code> - Update folder details</label></li>
+<li><label><input type="checkbox"><code>DELETE /folders/:id</code> - Delete folder (move contents to root)</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Folder Organization Features</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>POST /folders/:id/uploads</code> - Add uploads to folder</label></li>
+<li><label><input type="checkbox"><code>DELETE /folders/:id/uploads/:uploadId</code> - Remove upload from folder</label></li>
+<li><label><input type="checkbox"><code>PUT /folders/reorder</code> - Reorder folders</label></li>
+<li><label><input type="checkbox">Support for nested folders (max 2 levels)</label></li>
+</ul></li>
+</ul>
+<p><strong>Implementation Details:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode go code-with-copy"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// model/mongoModels/folders.go</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> Folder <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ID          primitive<span class="op">.</span>ObjectID <span class="st">`bson:"_id" json:"id"`</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    UserID      <span class="dt">string</span>            <span class="st">`bson:"user_id" json:"user_id"`</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    Name        <span class="dt">string</span>            <span class="st">`bson:"name" json:"name"`</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    Description <span class="dt">string</span>            <span class="st">`bson:"description" json:"description"`</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ParentID    <span class="op">*</span>primitive<span class="op">.</span>ObjectID <span class="st">`bson:"parent_id,omitempty" json:"parent_id,omitempty"`</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    Order       <span class="dt">int</span>               <span class="st">`bson:"order" json:"order"`</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    CreatedAt   time<span class="op">.</span>Time         <span class="st">`bson:"created_at" json:"created_at"`</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    UpdatedAt   time<span class="op">.</span>Time         <span class="st">`bson:"updated_at" json:"updated_at"`</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="search-filtering-apis" class="level4">
+<h4 class="anchored" data-anchor-id="search-filtering-apis">2.3 Search &amp; Filtering APIs</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Advanced Search Endpoint</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>GET /search</code> - Full-text search across uploads</label></li>
+<li><label><input type="checkbox">Support search by: title, description, tags, URL domain</label></li>
+<li><label><input type="checkbox">Implement search filters: date range, folder, media type</label></li>
+<li><label><input type="checkbox">Add search result ranking and relevance scoring</label></li>
+<li><label><input type="checkbox">Return search suggestions and autocomplete</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Filtering &amp; Sorting</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>GET /uploads/filter</code> - Advanced filtering options</label></li>
+<li><label><input type="checkbox">Filter by tags (AND/OR logic)</label></li>
+<li><label><input type="checkbox">Filter by folder membership</label></li>
+<li><label><input type="checkbox">Filter by date created/modified</label></li>
+<li><label><input type="checkbox">Sort by: date, title, view count, relevance</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="tags-categories-system" class="level4">
+<h4 class="anchored" data-anchor-id="tags-categories-system">2.4 Tags &amp; Categories System</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Tag Management</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>GET /tags</code> - Get user’s most used tags</label></li>
+<li><label><input type="checkbox"><code>POST /tags/suggestions</code> - Get tag suggestions based on URL content</label></li>
+<li><label><input type="checkbox"><code>PUT /uploads/:id/tags</code> - Update upload tags</label></li>
+<li><label><input type="checkbox">Implement tag autocomplete and validation</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Category Analytics</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>GET /analytics/tags</code> - Tag usage statistics</label></li>
+<li><label><input type="checkbox"><code>GET /analytics/folders</code> - Folder statistics</label></li>
+<li><label><input type="checkbox"><code>GET /analytics/activity</code> - User activity over time</label></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-3-database-performance-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="phase-3-database-performance-optimization">Phase 3: Database &amp; Performance Optimization</h3>
+<p><strong>Priority: Medium</strong> | <strong>Estimated Time: 1-2 weeks</strong></p>
+<section id="database-indexing-query-optimization" class="level4">
+<h4 class="anchored" data-anchor-id="database-indexing-query-optimization">3.1 Database Indexing &amp; Query Optimization</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>MongoDB Indexes</strong></label></p>
+<ul class="task-list">
+<li><p><label><input type="checkbox">Create indexes on frequently queried fields:</label></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go code-with-copy"><code class="sourceCode go"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// user_id index for fast user queries</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">// text index for full-text search</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">// compound indexes for common filter combinations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Query Optimization</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Implement pagination with proper cursor-based navigation</label></li>
+<li><label><input type="checkbox">Use MongoDB aggregation pipeline for complex queries</label></li>
+<li><label><input type="checkbox">Implement query result caching with Redis</label></li>
+<li><label><input type="checkbox">Add query execution time monitoring</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="connection-pooling-database-management" class="level4">
+<h4 class="anchored" data-anchor-id="connection-pooling-database-management">3.2 Connection Pooling &amp; Database Management</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Connection Optimization</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Configure MongoDB connection pool settings</label></li>
+<li><label><input type="checkbox">Implement PostgreSQL connection pooling</label></li>
+<li><label><input type="checkbox">Add connection health checks and auto-retry logic</label></li>
+<li><label><input type="checkbox">Monitor and log database connection metrics</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Data Migration &amp; Backup</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Create database migration system</label></li>
+<li><label><input type="checkbox">Implement automated backup procedures</label></li>
+<li><label><input type="checkbox">Add data cleanup jobs for deleted users</label></li>
+<li><label><input type="checkbox">Create data export functionality for users</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="caching-strategy" class="level4">
+<h4 class="anchored" data-anchor-id="caching-strategy">3.3 Caching Strategy</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Redis Integration</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Install Redis client: <code>go get github.com/redis/go-redis/v9</code></label></li>
+<li><label><input type="checkbox">Cache frequently accessed user data</label></li>
+<li><label><input type="checkbox">Cache search results and tag suggestions</label></li>
+<li><label><input type="checkbox">Implement cache invalidation strategies</label></li>
+<li><label><input type="checkbox">Add cache warming for popular content</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Application-Level Caching</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Cache LinkPreview API responses</label></li>
+<li><label><input type="checkbox">Implement in-memory caching for configuration</label></li>
+<li><label><input type="checkbox">Add ETag support for conditional requests</label></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-4-production-readiness" class="level3">
+<h3 class="anchored" data-anchor-id="phase-4-production-readiness">Phase 4: Production Readiness</h3>
+<p><strong>Priority: Medium</strong> | <strong>Estimated Time: 1-2 weeks</strong></p>
+<section id="comprehensive-logging-monitoring" class="level4">
+<h4 class="anchored" data-anchor-id="comprehensive-logging-monitoring">4.1 Comprehensive Logging &amp; Monitoring</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Structured Logging</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Replace fmt.Printf with proper logging: <code>go get github.com/sirupsen/logrus</code></label></li>
+<li><label><input type="checkbox">Implement log levels: DEBUG, INFO, WARN, ERROR</label></li>
+<li><label><input type="checkbox">Add request ID tracking for correlation</label></li>
+<li><label><input type="checkbox">Log API response times and error rates</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Metrics &amp; Monitoring</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Add Prometheus metrics: <code>go get github.com/prometheus/client_golang</code></label></li>
+<li><label><input type="checkbox">Monitor API endpoint performance</label></li>
+<li><label><input type="checkbox">Track database query performance</label></li>
+<li><label><input type="checkbox">Monitor memory and CPU usage</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="error-handling-recovery" class="level4">
+<h4 class="anchored" data-anchor-id="error-handling-recovery">4.2 Error Handling &amp; Recovery</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>Centralized Error Handling</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Create custom error types with error codes</label></li>
+<li><label><input type="checkbox">Implement error wrapping with context</label></li>
+<li><label><input type="checkbox">Add error recovery middleware</label></li>
+<li><label><input type="checkbox">Create user-friendly error messages</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Graceful Shutdown</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Implement graceful server shutdown</label></li>
+<li><label><input type="checkbox">Close database connections properly</label></li>
+<li><label><input type="checkbox">Complete in-flight requests before shutdown</label></li>
+<li><label><input type="checkbox">Add health check endpoint for load balancers</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="api-documentation-testing" class="level4">
+<h4 class="anchored" data-anchor-id="api-documentation-testing">4.3 API Documentation &amp; Testing</h4>
+<ul class="task-list">
+<li><p><label><input type="checkbox"><strong>OpenAPI/Swagger Documentation</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Install Swagger: <code>go get github.com/swaggo/gin-swagger</code></label></li>
+<li><label><input type="checkbox">Document all API endpoints with examples</label></li>
+<li><label><input type="checkbox">Include authentication requirements</label></li>
+<li><label><input type="checkbox">Add response schema definitions</label></li>
+</ul></li>
+<li><p><label><input type="checkbox"><strong>Comprehensive Testing</strong></label></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Unit tests for all handlers and utilities</label></li>
+<li><label><input type="checkbox">Integration tests for database operations</label></li>
+<li><label><input type="checkbox">API endpoint tests with test database</label></li>
+<li><label><input type="checkbox">Load testing with realistic traffic patterns</label></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="environment-configuration" class="level2">
+<h2 class="anchored" data-anchor-id="environment-configuration">🔧 Environment &amp; Configuration</h2>
+<section id="required-environment-variables" class="level3">
+<h3 class="anchored" data-anchor-id="required-environment-variables">Required Environment Variables</h3>
+<p>Create a <code>.env</code> file in the backend/ directory:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Server Configuration</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">PORT</span><span class="op">=</span>3000</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">GIN_MODE</span><span class="op">=</span>release</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">CORS_ORIGINS</span><span class="op">=</span>http://localhost:8081,exp://192.168.<span class="pp">*</span>:8081</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Database Configuration</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">MONGODB_URI</span><span class="op">=</span>mongodb://localhost:27017/lyked</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">POSTGRES_URI</span><span class="op">=</span>postgres://user:password@localhost:5432/lyked</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Authentication</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="va">JWT_SECRET_KEY</span><span class="op">=</span>your-super-secret-jwt-key-here</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="va">JWT_EXPIRY_HOURS</span><span class="op">=</span>24</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="va">REFRESH_TOKEN_EXPIRY_DAYS</span><span class="op">=</span>7</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># External APIs</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="va">LINKPREVIEW_API_KEY</span><span class="op">=</span>your-linkpreview-api-key</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="va">LINKPREVIEW_RATE_LIMIT</span><span class="op">=</span>100</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Redis Configuration (optional)</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="va">REDIS_URI</span><span class="op">=</span>redis://localhost:6379</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="va">REDIS_DB</span><span class="op">=</span>0</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Security</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="va">BCRYPT_COST</span><span class="op">=</span>12</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="va">RATE_LIMIT_REQUESTS_PER_MINUTE</span><span class="op">=</span>60</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitoring</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="va">ENABLE_METRICS</span><span class="op">=</span>true</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="va">LOG_LEVEL</span><span class="op">=</span>INFO</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="required-dependencies-to-add" class="level3">
+<h3 class="anchored" data-anchor-id="required-dependencies-to-add">Required Dependencies to Add</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Authentication &amp; Security</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/golang-jwt/jwt/v5</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get golang.org/x/crypto/bcrypt</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/gin-contrib/cors</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Database &amp; Caching</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/redis/go-redis/v9</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get gorm.io/driver/postgres</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Validation &amp; Utilities</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/go-playground/validator/v10</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/google/uuid</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Logging &amp; Monitoring</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/sirupsen/logrus</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/prometheus/client_golang</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Documentation</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/swaggo/gin-swagger</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/swaggo/files</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Development &amp; Testing</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/stretchr/testify</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> get github.com/DATA-DOG/go-sqlmock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="architecture-improvements" class="level2">
+<h2 class="anchored" data-anchor-id="architecture-improvements">🏗️ Architecture Improvements</h2>
+<section id="current-structure-enhancement" class="level3">
+<h3 class="anchored" data-anchor-id="current-structure-enhancement">Current Structure Enhancement</h3>
+<pre><code>backend/
+├── cmd/
+│   └── main.go
+├── internal/                    # New: Internal packages
+│   ├── auth/                   # Authentication logic
+│   ├── config/                 # Configuration management
+│   ├── middleware/             # All middleware
+│   └── services/               # Business logic layer
+├── api/                        # New: API layer
+│   ├── handlers/              # HTTP handlers (moved)
+│   ├── routes/                # Route definitions
+│   └── validators/            # Request validation
+├── pkg/                       # New: Reusable packages
+│   ├── database/              # Database utilities
+│   ├── logger/                # Logging utilities
+│   └── errors/                # Custom error types
+└── tests/                     # New: Test files
+    ├── integration/
+    └── unit/</code></pre>
+</section>
+<section id="recommended-code-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="recommended-code-patterns">Recommended Code Patterns</h3>
+<section id="service-layer-pattern" class="level4">
+<h4 class="anchored" data-anchor-id="service-layer-pattern">1. Service Layer Pattern</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode go code-with-copy"><code class="sourceCode go"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// internal/services/upload_service.go</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> UploadService <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    mongoRepo <span class="op">*</span>repositories<span class="op">.</span>MongoUploadRepository</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    validator <span class="op">*</span>validator<span class="op">.</span>Validate</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> <span class="op">(</span>s <span class="op">*</span>UploadService<span class="op">)</span> CreateUpload<span class="op">(</span>ctx context<span class="op">.</span>Context<span class="op">,</span> userID <span class="dt">string</span><span class="op">,</span> req CreateUploadRequest<span class="op">)</span> <span class="op">(*</span>model<span class="op">.</span>LykedUploads<span class="op">,</span> <span class="dt">error</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Business logic here</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Validation, data processing, etc.</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="repository-pattern" class="level4">
+<h4 class="anchored" data-anchor-id="repository-pattern">2. Repository Pattern</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode go code-with-copy"><code class="sourceCode go"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// internal/repositories/upload_repository.go</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> UploadRepository <span class="kw">interface</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    Create<span class="op">(</span>ctx context<span class="op">.</span>Context<span class="op">,</span> upload <span class="op">*</span>model<span class="op">.</span>LykedUploads<span class="op">)</span> <span class="dt">error</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    GetByUserID<span class="op">(</span>ctx context<span class="op">.</span>Context<span class="op">,</span> userID <span class="dt">string</span><span class="op">,</span> opts GetOptions<span class="op">)</span> <span class="op">([]*</span>model<span class="op">.</span>LykedUploads<span class="op">,</span> <span class="dt">error</span><span class="op">)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    Delete<span class="op">(</span>ctx context<span class="op">.</span>Context<span class="op">,</span> id primitive<span class="op">.</span>ObjectID<span class="op">)</span> <span class="dt">error</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+</section>
+<section id="api-endpoint-specifications" class="level2">
+<h2 class="anchored" data-anchor-id="api-endpoint-specifications">📋 API Endpoint Specifications</h2>
+<section id="authentication-endpoints" class="level3">
+<h3 class="anchored" data-anchor-id="authentication-endpoints">Authentication Endpoints</h3>
+<pre><code>POST   /api/v1/auth/register       # User registration
+POST   /api/v1/auth/login          # User login
+POST   /api/v1/auth/refresh        # Refresh token
+POST   /api/v1/auth/logout         # Logout user
+POST   /api/v1/auth/forgot-password # Password reset request
+POST   /api/v1/auth/reset-password  # Password reset confirmation</code></pre>
+</section>
+<section id="upload-management" class="level3">
+<h3 class="anchored" data-anchor-id="upload-management">Upload Management</h3>
+<pre><code>POST   /api/v1/uploads             # Create upload
+GET    /api/v1/uploads             # Get user uploads (paginated)
+GET    /api/v1/uploads/:id         # Get single upload
+PUT    /api/v1/uploads/:id         # Update upload
+DELETE /api/v1/uploads/:id         # Delete upload
+POST   /api/v1/uploads/bulk        # Bulk operations</code></pre>
+</section>
+<section id="folder-management" class="level3">
+<h3 class="anchored" data-anchor-id="folder-management">Folder Management</h3>
+<pre><code>POST   /api/v1/folders             # Create folder
+GET    /api/v1/folders             # Get user folders
+GET    /api/v1/folders/:id         # Get folder with contents
+PUT    /api/v1/folders/:id         # Update folder
+DELETE /api/v1/folders/:id         # Delete folder
+POST   /api/v1/folders/:id/uploads # Add uploads to folder</code></pre>
+</section>
+<section id="search-analytics" class="level3">
+<h3 class="anchored" data-anchor-id="search-analytics">Search &amp; Analytics</h3>
+<pre><code>GET    /api/v1/search              # Search uploads
+GET    /api/v1/tags                # Get user tags
+GET    /api/v1/analytics/summary   # User analytics
+GET    /api/v1/health              # Health check</code></pre>
+<hr>
+</section>
+</section>
+<section id="security-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="security-checklist">🚨 Security Checklist</h2>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Authentication</strong>: JWT tokens with proper expiration</label></li>
+<li><label><input type="checkbox"><strong>Authorization</strong>: User can only access their own data</label></li>
+<li><label><input type="checkbox"><strong>Input Validation</strong>: All inputs validated and sanitized</label></li>
+<li><label><input type="checkbox"><strong>SQL/NoSQL Injection</strong>: Parameterized queries only</label></li>
+<li><label><input type="checkbox"><strong>Rate Limiting</strong>: Prevent API abuse</label></li>
+<li><label><input type="checkbox"><strong>HTTPS</strong>: All traffic encrypted in production</label></li>
+<li><label><input type="checkbox"><strong>CORS</strong>: Properly configured origins</label></li>
+<li><label><input type="checkbox"><strong>Headers</strong>: Security headers implemented</label></li>
+<li><label><input type="checkbox"><strong>Secrets</strong>: No hardcoded secrets or API keys</label></li>
+<li><label><input type="checkbox"><strong>Error Handling</strong>: No sensitive data in error messages</label></li>
+</ul>
+<hr>
+</section>
+<section id="performance-targets" class="level2">
+<h2 class="anchored" data-anchor-id="performance-targets">📊 Performance Targets</h2>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Response Time</strong>: &lt; 200ms for 95% of requests</label></li>
+<li><label><input type="checkbox"><strong>Throughput</strong>: Handle 1000+ requests per minute</label></li>
+<li><label><input type="checkbox"><strong>Database Queries</strong>: &lt; 100ms for 95% of queries</label></li>
+<li><label><input type="checkbox"><strong>Memory Usage</strong>: &lt; 512MB under normal load</label></li>
+<li><label><input type="checkbox"><strong>Error Rate</strong>: &lt; 1% of requests fail</label></li>
+<li><label><input type="checkbox"><strong>Uptime</strong>: 99.9% availability target</label></li>
+</ul>
+<hr>
+</section>
+<section id="testing-strategy" class="level2">
+<h2 class="anchored" data-anchor-id="testing-strategy">🧪 Testing Strategy</h2>
+<section id="unit-testing-70-coverage-minimum" class="level3">
+<h3 class="anchored" data-anchor-id="unit-testing-70-coverage-minimum">Unit Testing (70% coverage minimum)</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Test all handler functions with mock dependencies</label></li>
+<li><label><input type="checkbox">Test service layer business logic</label></li>
+<li><label><input type="checkbox">Test utility functions and validators</label></li>
+<li><label><input type="checkbox">Test database repositories with test database</label></li>
+</ul>
+</section>
+<section id="integration-testing" class="level3">
+<h3 class="anchored" data-anchor-id="integration-testing">Integration Testing</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Test complete API workflows</label></li>
+<li><label><input type="checkbox">Test database migrations and operations</label></li>
+<li><label><input type="checkbox">Test authentication flows</label></li>
+<li><label><input type="checkbox">Test error scenarios and edge cases</label></li>
+</ul>
+</section>
+<section id="load-testing" class="level3">
+<h3 class="anchored" data-anchor-id="load-testing">Load Testing</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Test with realistic user traffic patterns</label></li>
+<li><label><input type="checkbox">Test database performance under load</label></li>
+<li><label><input type="checkbox">Test memory and CPU usage under stress</label></li>
+<li><label><input type="checkbox">Test graceful degradation scenarios</label></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="definition-of-done" class="level2">
+<h2 class="anchored" data-anchor-id="definition-of-done">📋 Definition of Done</h2>
+<p>For each backend feature to be considered complete, it must:</p>
+<ol type="1">
+<li><strong>✅ Functionality</strong>: Feature works as designed with proper error handling</li>
+<li><strong>✅ Security</strong>: Authentication/authorization implemented correctly</li>
+<li><strong>✅ Performance</strong>: Meets response time and throughput targets</li>
+<li><strong>✅ Testing</strong>: Unit and integration tests written and passing</li>
+<li><strong>✅ Documentation</strong>: API endpoints documented with examples</li>
+<li><strong>✅ Logging</strong>: Proper logging and monitoring implemented</li>
+<li><strong>✅ Code Review</strong>: Code follows Go conventions and passes linting</li>
+</ol>
+<hr>
+</section>
+<section id="deployment-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-checklist">🚀 Deployment Checklist</h2>
+<p>Before production deployment:</p>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Environment</strong>: All environment variables configured</label></li>
+<li><label><input type="checkbox"><strong>Database</strong>: Migrations applied and indexes created</label></li>
+<li><label><input type="checkbox"><strong>Monitoring</strong>: Logging and metrics collection active</label></li>
+<li><label><input type="checkbox"><strong>Security</strong>: Security audit completed</label></li>
+<li><label><input type="checkbox"><strong>Performance</strong>: Load testing passed</label></li>
+<li><label><input type="checkbox"><strong>Documentation</strong>: API documentation published</label></li>
+<li><label><input type="checkbox"><strong>Backup</strong>: Database backup procedures tested</label></li>
+<li><label><input type="checkbox"><strong>Recovery</strong>: Disaster recovery plan documented</label></li>
+</ul>
+<hr>
+</section>
+<section id="progress-tracking" class="level2">
+<h2 class="anchored" data-anchor-id="progress-tracking">📊 Progress Tracking</h2>
+<p>Track your progress by checking off completed items. Focus on completing Phase 1 (Authentication &amp; Security) before moving to other phases.</p>
+<p><strong>Current Phase</strong>: Phase 1 - Authentication &amp; Security<br>
+<strong>Next Milestone</strong>: JWT authentication middleware implemented</p>
+<hr>
+<p><em>This roadmap represents a production-ready backend architecture. Adjust timelines and priorities based on your specific requirements and constraints.</em></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

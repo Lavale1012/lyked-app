@@ -1,0 +1,272 @@
+# Lyked Backend - Go Project .gitignore
+
+# =============================================================================
+# SENSITIVE DATA & SECRETS
+# =============================================================================
+
+# Environment variables and configuration files
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
+.env.test
+*.env
+config.json
+config.yaml
+config.yml
+secrets.json
+
+# API Keys and credentials
+api_keys.txt
+credentials.json
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Database credentials and connection strings
+database.config
+db.config
+connection_strings.txt
+
+# JWT secrets and tokens
+jwt_secret.txt
+*.jwt
+refresh_tokens.txt
+
+# =============================================================================
+# GO SPECIFIC
+# =============================================================================
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+coverage.xml
+*.cover
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Dependency directories
+vendor/
+
+# Build artifacts
+dist/
+build/
+bin/
+main
+lyked-backend
+cmd/main
+*.bin
+
+# =============================================================================
+# DEVELOPMENT & IDE
+# =============================================================================
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# =============================================================================
+# LOGS & DEBUGGING
+# =============================================================================
+
+# Log files
+*.log
+logs/
+log/
+*.log.*
+
+# Debug files
+debug
+*.pprof
+*.trace
+
+# Crash dumps
+crash.dump
+core
+
+# =============================================================================
+# DATABASE & CACHE
+# =============================================================================
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+data/
+db_dumps/
+backups/
+
+# Redis dump files
+dump.rdb
+
+# MongoDB files
+mongo_data/
+mongodb_data/
+
+# PostgreSQL files
+postgres_data/
+postgresql_data/
+
+# =============================================================================
+# DOCKER & DEPLOYMENT
+# =============================================================================
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Kubernetes secrets
+*-secret.yaml
+*-secret.yml
+
+# Deployment configurations with secrets
+deploy.config
+deployment.yaml
+deployment.yml
+
+# =============================================================================
+# TESTING & COVERAGE
+# =============================================================================
+
+# Test artifacts
+testdata/tmp/
+test_results/
+*.test.json
+benchmark_results.txt
+
+# Mock files (if auto-generated)
+mocks/generated/
+
+# =============================================================================
+# TEMPORARY FILES
+# =============================================================================
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# File uploads (development)
+uploads/
+media/
+user_files/
+
+# Cache directories
+cache/
+.cache/
+
+# =============================================================================
+# MONITORING & METRICS
+# =============================================================================
+
+# Prometheus data
+prometheus_data/
+
+# Grafana data
+grafana_data/
+
+# Application metrics dumps
+metrics.txt
+performance.log
+
+# =============================================================================
+# THIRD-PARTY & VENDOR
+# =============================================================================
+
+# Downloaded dependencies
+third_party/
+external/
+
+# Certificates from external services
+*.ca-bundle
+ca-certificates.crt
+
+# =============================================================================
+# BACKUP & ARCHIVE
+# =============================================================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+backup_*
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+
+# =============================================================================
+# CUSTOM APPLICATION SPECIFIC
+# =============================================================================
+
+# LinkPreview API cache
+linkpreview_cache/
+url_previews/
+
+# User uploaded content (local development)
+user_media/
+media_cache/
+thumbnails/
+
+# Session storage
+sessions/
+session_data/
+
+# Email templates (if they contain sensitive info)
+email_templates/production/
+
+# Migration scripts with sensitive data
+migrations/production/
+seed_data/production/
+
+# =============================================================================
+# NOTES & COMMENTS
+# =============================================================================
+
+# Keep this section for important notes:
+# - Never commit API keys, passwords, or tokens
+# - Use environment variables for all sensitive configuration
+# - Keep separate .env files for different environments
+# - Regularly rotate secrets and update .env files
+# - Consider using tools like HashiCorp Vault for production secrets

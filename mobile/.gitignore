@@ -1,0 +1,364 @@
+# Lyked Frontend - React Native/Expo .gitignore
+
+# =============================================================================
+# SENSITIVE DATA & SECRETS
+# =============================================================================
+
+# Environment variables and configuration files
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
+.env.test
+*.env
+
+# API Keys and secrets
+api-keys.js
+secrets.json
+config/production.js
+config/staging.js
+
+# OAuth and authentication secrets
+oauth-config.json
+auth-secrets.js
+
+# Clerk configuration files with secrets
+clerk-config.json
+
+# LinkPreview API configuration
+linkpreview-config.json
+
+# =============================================================================
+# EXPO SPECIFIC
+# =============================================================================
+
+# Expo
+.expo/
+.expo-shared/
+web-build/
+dist/
+
+# EAS (Expo Application Services)
+eas.json
+
+# Expo development builds
+*.dev.js
+
+# =============================================================================
+# REACT NATIVE SPECIFIC
+# =============================================================================
+
+# Metro bundler cache
+.metro-health-check*
+.metro-cache/
+
+# React Native builds
+android/app/build/
+ios/build/
+ios/Pods/
+android/.gradle/
+
+# React Native debugger
+.flipper/
+
+# CocoaPods (iOS)
+ios/Pods/
+ios/Podfile.lock
+*.xcworkspace
+
+# Android
+android/app/release/
+android/app/debug/
+android/.gradle/
+android/gradle/
+android/local.properties
+android/app/google-services.json
+android/app/src/main/assets/appcenter-config.json
+
+# iOS
+ios/*.xcarchive
+ios/lyked.xcworkspace
+ios/build/
+ios/DerivedData/
+*.xcuserstate
+*.mobileprovision
+*.p12
+
+# Keep existing patterns
+ios
+android
+*.jks
+*.p8
+*.key
+*.orig.*
+
+# =============================================================================
+# NODE.JS & NPM
+# =============================================================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+npm-debug.*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Package manager lock files (keep package-lock.json, remove others)
+yarn.lock
+pnpm-lock.yaml
+
+# NPM cache
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# =============================================================================
+# DEVELOPMENT & IDE
+# =============================================================================
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Visual Studio Code settings (keep shared settings, ignore personal ones)
+.vscode/settings.json
+.vscode/launch.json
+
+# WebStorm
+.idea/
+
+# =============================================================================
+# OPERATING SYSTEM
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.fseventsd
+.TemporaryItems
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Linux
+*~
+.nfs*
+
+# =============================================================================
+# TESTING & COVERAGE
+# =============================================================================
+
+# Jest coverage
+coverage/
+*.lcov
+
+# Testing artifacts
+__tests__/__snapshots__/
+test-results/
+screenshots/
+videos/
+
+# E2E testing
+e2e/artifacts/
+detox/
+
+# =============================================================================
+# BUILD & DISTRIBUTION
+# =============================================================================
+
+# Build outputs
+build/
+dist/
+out/
+
+# Production builds
+*.tgz
+*.tar.gz
+
+# App binaries
+*.apk
+*.aab
+*.ipa
+*.app
+
+# =============================================================================
+# LOGS & DEBUGGING
+# =============================================================================
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Debug files
+.nyc_output/
+debug.log
+
+# Crashlytics (if using)
+crashlytics-build.properties
+
+# React Native logs
+react-native-logs.txt
+
+# =============================================================================
+# CACHE & TEMPORARY
+# =============================================================================
+
+# Temporary folders
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Webpack cache
+.webpack/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Next.js (if using for web)
+.next/
+
+# =============================================================================
+# ASSETS & MEDIA
+# =============================================================================
+
+# Generated assets (if auto-generated)
+assets/generated/
+
+# Large media files (should be hosted externally)
+assets/videos/*.mp4
+assets/images/large/
+
+# User uploaded content (local development)
+uploads/
+user-content/
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency lock files from other package managers
+package-lock.json.bak
+yarn.lock.bak
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettiercache
+
+# TypeScript incremental compilation
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# =============================================================================
+# DEPLOYMENT & CI/CD
+# =============================================================================
+
+# Deployment configurations
+deploy.config.js
+deployment/
+
+# GitHub Actions secrets
+.github/secrets/
+
+# CI/CD artifacts
+artifacts/
+reports/
+
+# =============================================================================
+# CLERK AUTHENTICATION
+# =============================================================================
+
+# Clerk development keys (production keys should never be in code)
+clerk-dev-config.js
+
+# =============================================================================
+# CUSTOM APPLICATION SPECIFIC
+# =============================================================================
+
+# LinkPreview cache
+linkpreview-cache/
+url-cache/
+
+# User session data
+session-storage/
+
+# Image cache
+image-cache/
+thumbnail-cache/
+
+# Offline storage
+offline-data/
+
+# Analytics data (local)
+analytics/
+metrics/
+
+# =============================================================================
+# BACKUP FILES
+# =============================================================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+backup_*
+
+# =============================================================================
+# NOTES & COMMENTS
+# =============================================================================
+
+# Keep this section for important reminders:
+# - Never commit API keys or authentication tokens
+# - Use EXPO_PUBLIC_ prefix for public environment variables only
+# - Keep sensitive config in .env files
+# - Regularly rotate API keys and tokens
+# - Test builds work correctly with gitignored files
