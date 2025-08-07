@@ -3,6 +3,9 @@ package server
 import (
 	"fmt"
 	DB "lyked-backend/db/mongodb"
+	PDB "lyked-backend/db/postgresql"
+	modelPG "lyked-backend/model/posgressModels"
+
 	"lyked-backend/routes"
 	"lyked-backend/utils"
 	"time"
@@ -42,8 +45,14 @@ func InitServer() error {
 	if _, err := DB.GetCollection("uploads"); err != nil {
 		return fmt.Errorf("failed to get 'uploads' collection: %w", err)
 	}
-	// DB.ConnectPostgres()
-	// DB.Migrate()
+	conn, err := PDB.ConnectPostgres()
+	if err != nil {
+		return fmt.Errorf("failed to connect to PostgreSQL: %w", err)
+	}
+	conn.AutoMigrate(&modelPG.User{}, &modelPG.Session{})
+
+	fmt.Printf("🚀 Server is running on http://localhost:%s\n", PORT)
+	// Start the server
 
 	if err := r.Run("localhost:" + PORT); err != nil {
 		return fmt.Errorf("failed to start the server: %w", err)
