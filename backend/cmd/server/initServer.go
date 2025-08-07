@@ -30,7 +30,9 @@ func InitServer() error {
 	}))
 	r.Use(gin.Recovery())
 
-	// routes.InitUserRoutes(r)
+	if err := routes.InitUserRoutes(r); err != nil {
+		return fmt.Errorf("failed to initialize user routes: %w", err)
+	}
 	if err := routes.InitUploadRoutes(r); err != nil {
 		return fmt.Errorf("failed to initialize upload routes: %w", err)
 	}

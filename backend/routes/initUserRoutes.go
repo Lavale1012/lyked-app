@@ -10,8 +10,9 @@ func InitUserRoutes(r *gin.Engine) error {
 	userRoutes := r.Group("/users")
 	{
 		userRoutes.GET("/test", handlers.TestRoute)
+		userRoutes.GET("/test-token", handlers.TestTokenRoute)
 		// Define user-related routes here, e.g.:
-		// userRoutes.POST("/register", handlers.RegisterUser)
+		userRoutes.POST("/register", handlers.RegisterUser)
 		// userRoutes.POST("/login", handlers.LoginUser)
 	}
 	return nil

@@ -1,4 +1,4 @@
-package DB
+package MDB
 
 import (
 	"context"
@@ -11,11 +11,11 @@ import (
 )
 
 var mongoClient *mongo.Client
-var db *mongo.Database
+var MongoDB *mongo.Database
 
 func ConnectMongo(dbName string) (*mongo.Database, error) {
 	utils.LoadEnv()
-	mongoURI := utils.GetEnv("MONGO_URI", "mongodb://localhost:27017")
+	mongoURI := utils.GetEnv("MONGO_URI", "BACKUP_MONGO_URI")
 	// Use the SetServerAPIOptions() method to set the version of the Stable API on the client
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(mongoURI).SetServerAPIOptions(serverAPI)
@@ -26,8 +26,8 @@ func ConnectMongo(dbName string) (*mongo.Database, error) {
 		panic(err)
 	}
 	mongoClient = client
-	db = mongoClient.Database(dbName)
-	if db == nil {
+	MongoDB = mongoClient.Database(dbName)
+	if MongoDB == nil {
 		return nil, fmt.Errorf("failed to connect to database '%s'", dbName)
 	}
 	fmt.Print("Connected to database: ", dbName, "\n")
@@ -38,7 +38,7 @@ func ConnectMongo(dbName string) (*mongo.Database, error) {
 	}
 
 	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
-	return db, nil
+	return MongoDB, nil
 }
 
 func GetCollection(CName string) (*mongo.Collection, error) {
@@ -46,7 +46,7 @@ func GetCollection(CName string) (*mongo.Collection, error) {
 		return nil, fmt.Errorf("MongoDB client is not connected")
 	}
 
-	Collection := db.Collection(CName)
+	Collection := MongoDB.Collection(CName)
 	if Collection == nil {
 		return nil, fmt.Errorf("failed to connect to collection '%s'", CName)
 	}
