@@ -75,11 +75,19 @@ func UploadHandler(c *gin.Context) {
 func DeleteUploadHandler(c *gin.Context) {
 	// Handle file deletion logic here
 	id := c.Query("id")
+	userID, exist := c.Get("user_id")
 	if id == "" {
 		c.JSON(400, gin.H{"error": "Upload ID is required"})
 		return
 	}
-
+	if !exist {
+		c.JSON(401, gin.H{"error": "Unauthorized: user_id not found in context"})
+		return
+	}
+	if userID == "" {
+		c.JSON(400, gin.H{"error": "User ID is required"})
+		return
+	}
 	collection, err := DB.GetCollection("uploads")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -99,7 +107,11 @@ func DeleteUploadHandler(c *gin.Context) {
 }
 
 func GetAllUploadsHandler(c *gin.Context) {
-	userID := c.Query("user_id")
+	userID, exist := c.Get("user_id")
+	if !exist {
+		c.JSON(400, gin.H{"error": "User ID is required"})
+		return
+	}
 	if userID == "" {
 		c.JSON(400, gin.H{"error": "User ID is required"})
 		return

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"lyked-backend/internal/utils"
 	"strings"
 
@@ -28,10 +29,11 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		}
 
 		// Store user information in context for further handlers
-		c.Set("userID", claims.UserID)
+		c.Set("user_id", claims.UserID)
 		c.Set("email", claims.Email)
 		c.Set("username", claims.Username)
 
+		fmt.Printf("🔑 JWT Middleware: Set user_id=%s, email=%s in context\n", claims.UserID, claims.Email)
 		c.Next()
 	}
 }
