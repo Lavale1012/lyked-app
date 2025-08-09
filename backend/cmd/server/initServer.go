@@ -2,12 +2,12 @@ package server
 
 import (
 	"fmt"
-	DB "lyked-backend/db/mongodb"
-	PDB "lyked-backend/db/postgresql"
-	modelPG "lyked-backend/model/posgressModels"
+	DB "lyked-backend/internal/database/mongodb"
+	PDB "lyked-backend/internal/database/postgresql"
+	modelPG "lyked-backend/internal/models/postgresql"
 
 	"lyked-backend/routes"
-	"lyked-backend/utils"
+	"lyked-backend/internal/utils"
 	"time"
 
 	"github.com/gin-contrib/cors"

@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"lyked-backend/handlers"
+	authHandlers "lyked-backend/internal/handlers/auth"
+	testHandlers "lyked-backend/internal/handlers/test"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,11 +10,11 @@ import (
 func InitUserRoutes(r *gin.Engine) error {
 	userRoutes := r.Group("/users")
 	{
-		userRoutes.GET("/test", handlers.TestRoute)
-		userRoutes.GET("/test-token", handlers.TestTokenRoute)
+		userRoutes.GET("/test", testHandlers.TestRoute)
+		userRoutes.GET("/test-token", testHandlers.TestTokenRoute)
 		// Define user-related routes here, e.g.:
-		userRoutes.POST("/register", handlers.RegisterUser)
-		// userRoutes.POST("/login", handlers.LoginUser)
+		userRoutes.POST("/register", authHandlers.RegisterUser)
+		userRoutes.POST("/login", authHandlers.LoginUser)
 	}
 	return nil
 }

@@ -26,19 +26,20 @@ In the age of infinite scrolling, users often come across inspiring, funny, emot
 - 🗂️ **Organize content** without relying on platform-specific saved features
 - 🔍 **Search and filter** through your curated collection effortlessly
 
-> *Future versions will include onboard AI that learns from stored media and recommends similar videos and images from the internet — tailoring discovery to your true tastes.*
+> _Future versions will include onboard AI that learns from stored media and recommends similar videos and images from the internet — tailoring discovery to your true tastes._
 
 ---
 
 ## 📱 Screenshots
 
-*Coming Soon - Screenshots will be added as the UI is finalized*
+_Coming Soon - Screenshots will be added as the UI is finalized_
 
 ---
 
 ## 🚀 Features
 
 ### ✅ Current (MVP)
+
 - **Cross-Platform Mobile App** built with React Native + Expo
 - **Media Link Storage** with automatic thumbnail generation
 - **Folder Organization** for categorizing saved content
@@ -47,12 +48,14 @@ In the age of infinite scrolling, users often come across inspiring, funny, emot
 - **REST API Backend** with secure data storage
 
 ### 🔄 In Progress
+
 - **User Authentication** via Clerk (email & social login)
 - **Enhanced Create Form** with URL validation and preview
 - **Advanced Search & Filtering** by tags, folders, and content type
 - **Error Boundaries** and offline capability
 
 ### ⏳ Planned Features
+
 - **AI-Powered Recommendations** based on saved content
 - **Full-Text Search** across titles, descriptions, and tags
 - **Web Browser Extension** for one-click saving
@@ -63,14 +66,16 @@ In the age of infinite scrolling, users often come across inspiring, funny, emot
 
 ## 🏗️ Architecture
 
-### 📱 Frontend (`/mobile`)
+### 📱 Frontend (`mobile`)
+
 - **React Native + Expo** - Cross-platform mobile development
 - **NativeWind** - Tailwind CSS styling for React Native
 - **React Navigation** - Tab and stack navigation
 - **Context API** - User management and state
 - **TypeScript** - Type-safe development
 
-### 🚀 Backend (`/backend`)
+### 🚀 Backend (`backend`)
+
 - **Go + Gin** - High-performance REST API server
 - **Dual Database Architecture**:
   - **MongoDB** - Media uploads, folders, and content metadata
@@ -79,6 +84,7 @@ In the age of infinite scrolling, users often come across inspiring, funny, emot
 - **LinkPreview.net Integration** - Automatic thumbnail generation
 
 ### 📊 Data Flow
+
 1. Users authenticate and access their personal vault
 2. Add media by pasting URLs from social platforms
 3. Content metadata and thumbnails automatically generated
@@ -90,8 +96,9 @@ In the age of infinite scrolling, users often come across inspiring, funny, emot
 ## 🛠️ Development Setup
 
 ### Prerequisites
+
 - **Node.js** 18+ and npm/yarn
-- **Go** 1.21+ 
+- **Go** 1.21+
 - **MongoDB** (local or cloud instance)
 - **PostgreSQL** (local or cloud instance)
 - **Expo CLI** for mobile development
@@ -99,37 +106,40 @@ In the age of infinite scrolling, users often come across inspiring, funny, emot
 ### 🏃‍♂️ Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/lyked.git
    cd lyked
    ```
 
 2. **Backend Setup**
+
    ```bash
    cd backend/
-   
+
    # Install Go dependencies
    go mod tidy
-   
+
    # Create environment file
    cp .env.example .env
    # Edit .env with your database credentials
-   
+
    # Run the server
    go run cmd/main.go
    ```
 
 3. **Frontend Setup**
+
    ```bash
    cd mobile/
-   
+
    # Install dependencies
    npm install
-   
+
    # Create environment file
    cp .env.example .env
    # Edit .env with your API endpoints
-   
+
    # Start Expo development server
    npm start
    ```
@@ -151,7 +161,7 @@ cd mobile && npm start
 
 # Choose platform:
 # - Press 'i' for iOS Simulator
-# - Press 'a' for Android Emulator  
+# - Press 'a' for Android Emulator
 # - Scan QR code with Expo Go app
 ```
 
@@ -160,6 +170,7 @@ cd mobile && npm start
 ## 🔧 Environment Variables
 
 ### Backend (`.env`)
+
 ```bash
 # Server Configuration
 PORT=3000
@@ -177,6 +188,7 @@ JWT_SECRET_KEY=your-super-secret-jwt-key
 ```
 
 ### Frontend (`.env`)
+
 ```bash
 # API Configuration
 EXPO_PUBLIC_API_BASE_URL=http://localhost:3000
@@ -195,17 +207,19 @@ EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 ### Current Endpoints
 
 #### Uploads
+
 - `POST /uploads/upload` - Create new media item
 - `GET /uploads/all?user_id=<uuid>` - Fetch user's uploads
 - `DELETE /uploads/delete?id=<objectid>` - Remove upload
 
 ### Planned Endpoints
+
 - Authentication: `/auth/*`
 - Folders: `/folders/*`
 - Search: `/search`
 - Users: `/users/*`
 
-*Full API documentation coming soon with Swagger/OpenAPI*
+_Full API documentation coming soon with Swagger/OpenAPI_
 
 ---
 
@@ -215,7 +229,7 @@ EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 # Backend tests
 cd backend && go test ./...
 
-# Frontend tests  
+# Frontend tests
 cd mobile && npm test
 
 # Linting
@@ -261,6 +275,7 @@ We welcome contributions! Here's how to get started:
 7. **Open a Pull Request**
 
 ### Development Guidelines
+
 - Follow existing code style and conventions
 - Add tests for new features
 - Update documentation as needed
@@ -272,10 +287,12 @@ We welcome contributions! Here's how to get started:
 ## 🗺️ Roadmap
 
 Check out our detailed development roadmaps:
+
 - [📱 Frontend Roadmap](mobile/FRONTEND_ROADMAP.md) - React Native app development
 - [🚀 Backend Roadmap](backend/BACKEND_ROADMAP.md) - Go API server development
 
 ### Milestones
+
 - **v0.1** ✅ MVP with basic media saving and viewing
 - **v0.2** 🔄 User authentication and enhanced UI
 - **v0.3** ⏳ Advanced search and folder management
@@ -292,7 +309,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Your Name** - _Initial work_ - [YourGitHub](https://github.com/yourusername)
 
 ---
 

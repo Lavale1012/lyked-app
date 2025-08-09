@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	PDB "lyked-backend/db/postgresql"
-	"lyked-backend/utils"
+	PDB "lyked-backend/internal/database/postgresql"
+	"lyked-backend/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

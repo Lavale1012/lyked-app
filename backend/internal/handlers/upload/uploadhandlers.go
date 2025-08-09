@@ -3,8 +3,8 @@ package handlers
 import (
 	"context"
 	"fmt"
-	DB "lyked-backend/db/mongodb"
-	model "lyked-backend/model/mongoModels"
+	DB "lyked-backend/internal/database/mongodb"
+	model "lyked-backend/internal/models/mongodb"
 	"time"
 
 	"github.com/gin-gonic/gin"
