@@ -1,44 +1,63 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
-	modelPG "lyked-backend/internal/models/postgresql"
+	jwtModel "lyked-backend/internal/models/jwt"
+	"time"
 
-	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
+	"github.com/golang-jwt/jwt/v5"
 )
 
+var jwtKey = []byte(GetEnv("JWT_SECRET_KEY", "")) // Replace with your secret key
+
 // Tokens.go
-func GenerateToken(userID string, db *gorm.DB) (string, error) {
-	var user modelPG.User
-	var token string
-	if userID == "" {
-		return "", fmt.Errorf("UserID cannot be empty")
+func GenerateToken(userID string, email string, username string) (string, error) {
+	experationTime := time.Now().Add(24 * time.Hour) // Token valid for 24 hours
+	claims := jwtModel.JWTClaims{
+		UserID:   userID,
+		Username: username,
+		Email:    email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(experationTime),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			Issuer:    "lyked-app",
+		},
 	}
-
-	err := db.Where("id = ?", userID).First(&user).Error
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		return "", fmt.Errorf("failed to generate token: %w", err)
+		return "", err
 	}
+	return tokenString, nil
 
-	if user.ID.String() == "" {
-		return "", fmt.Errorf("userID not found in database")
-	}
-	// Use bcrypt to hash the userID as a token
-
-	bytes, err := bcrypt.GenerateFromPassword([]byte(user.ID.String()), 14)
-	if err != nil {
-
-		return "", fmt.Errorf("failed to generate token: %w", err)
-	}
-	token = string(bytes)
-	return token, nil
 }
 
-func ValidateToken(token string) (string, error) {
-	return "", nil // Placeholder for token validation logic
+func ValidateToken(token string) (*jwtModel.JWTClaims, error) {
+	claims := &jwtModel.JWTClaims{}
+	tkn, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("unexpected signing method")
+		}
+		return jwtKey, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if !tkn.Valid {
+		return nil, errors.New("invalid token")
+	}
+	return claims, nil
 }
 
 func RefreshToken(token string) (string, error) {
-	return "", nil // Placeholder for token refresh logic
+	claims, err := ValidateToken(token)
+	if err != nil {
+		return "", fmt.Errorf("failed to validate token: %w", err)
+	}
+
+	if time.Until(claims.ExpiresAt.Time) > 1*time.Hour {
+		return "", fmt.Errorf("token not eligible for refresh yet")
+	}
+	return GenerateToken(claims.ID, claims.Email, claims.Username)
 }

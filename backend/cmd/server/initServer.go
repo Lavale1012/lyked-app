@@ -35,7 +35,13 @@ func InitServer() error {
 	if err := routes.InitUploadRoutes(r); err != nil {
 		return fmt.Errorf("failed to initialize upload routes: %w", err)
 	}
-
+	if err := routes.InitProtectedUploadRoutes(r); err != nil {
+		return fmt.Errorf("failed to initialize protected upload routes: %w", err)
+	}
+	if err := routes.InitProtectedUserRoutes(r); err != nil {
+		return fmt.Errorf("failed to initialize protected user routes: %w", err)
+	}
+	// Connect to MongoDB
 	if _, err := DB.ConnectMongo("lyked-app"); err != nil {
 		return fmt.Errorf("failed to connect to MongoDB: %w", err)
 	}

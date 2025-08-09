@@ -26,6 +26,12 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
+	err := db.Where("email = ?", user.Email).First(&modelPG.User{}).Error
+	if err == nil {
+		c.JSON(400, gin.H{"error": "User with this email already exists"})
+		return
+	}
+
 	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -89,7 +95,7 @@ func LoginUser(c *gin.Context) {
 	}
 
 	// Generate token (assuming you have a function for this)
-	token, err := utils.GenerateToken(user.ID.String(), db)
+	token, err := utils.GenerateToken(user.ID.String(), user.Email, user.Username)
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to generate token", "details": err.Error()})
 		return
@@ -123,3 +129,5 @@ func LoginUser(c *gin.Context) {
 }
 
 func LogoutUser(c *gin.Context) {}
+
+func RefreshToken(c *gin.Context) {}

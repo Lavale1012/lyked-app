@@ -18,10 +18,17 @@ func UploadHandler(c *gin.Context) {
 	var upload model.LykedUploads
 	var user modelPG.User
 
+	userID, exist := c.Get("user_id")
+	if !exist {
+		c.JSON(401, gin.H{"error": "Unauthorized: user_id not found in context"})
+		return
+	}
+
 	if err := c.ShouldBindJSON(&upload); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid upload data"})
 		return
 	}
+	upload.UserID = userID.(string)
 	if upload.UserID == "" {
 		c.JSON(400, gin.H{"error": "User ID is required"})
 		return
@@ -44,6 +51,7 @@ func UploadHandler(c *gin.Context) {
 	}
 
 	upload.ID = primitive.NewObjectID()
+
 	fmt.Printf("Received upload: %#v\n", upload)
 	collection, err := DB.GetCollection("uploads")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
