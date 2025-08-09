@@ -4,10 +4,9 @@ import (
 	"fmt"
 	DB "lyked-backend/internal/database/mongodb"
 	PDB "lyked-backend/internal/database/postgresql"
-	modelPG "lyked-backend/internal/models/postgresql"
 
-	"lyked-backend/routes"
 	"lyked-backend/internal/utils"
+	"lyked-backend/routes"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -47,11 +46,17 @@ func InitServer() error {
 	if _, err := DB.GetCollection("uploads"); err != nil {
 		return fmt.Errorf("failed to get 'uploads' collection: %w", err)
 	}
-	conn, err := PDB.ConnectPostgres()
+	_, err := PDB.ConnectPostgres()
 	if err != nil {
 		return fmt.Errorf("failed to connect to PostgreSQL: %w", err)
 	}
-	conn.AutoMigrate(&modelPG.User{}, &modelPG.Session{})
+
+	// Verify the connection was established
+	if PDB.PostgresDB == nil {
+		return fmt.Errorf("PostgreSQL connection is nil after initialization")
+	}
+
+	fmt.Println("✅ PostgreSQL connection verified")
 
 	fmt.Printf("🚀 Server is running on http://localhost:%s\n", PORT)
 	// Start the server

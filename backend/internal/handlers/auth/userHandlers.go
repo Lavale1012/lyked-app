@@ -57,6 +57,7 @@ func LoginUser(c *gin.Context) {
 	var db = PDB.PostgresDB
 	var login_req modelPG.LoginData
 	var user modelPG.User
+	var session modelPG.Session
 	// Bind the JSON data
 	if err := c.ShouldBindJSON(&login_req); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request data", "details": err.Error()})
@@ -94,10 +95,25 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
+	// Create a new session
+	session.UserID = user.ID
+	session.Token = token
+
+	err = db.WithContext(context.Background()).Create(&session).Error
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Failed to create session", "details": err.Error()})
+		return
+	}
+
 	// Return success with token
 	c.JSON(200, gin.H{
 		"message": "Login successful",
-		"token":   token,
+		"session": gin.H{
+			"id":         session.ID,
+			"user_id":    session.UserID,
+			"token":      session.Token,
+			"expires_at": session.ExpiresAt,
+		},
 		"user": gin.H{
 			"id":       user.ID,
 			"username": user.Username,
@@ -105,3 +121,5 @@ func LoginUser(c *gin.Context) {
 		},
 	})
 }
+
+func LogoutUser(c *gin.Context) {}

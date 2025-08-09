@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	DB "lyked-backend/internal/database/mongodb"
+	PDB "lyked-backend/internal/database/postgresql"
 	model "lyked-backend/internal/models/mongodb"
+	modelPG "lyked-backend/internal/models/postgresql"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,8 +16,30 @@ import (
 func UploadHandler(c *gin.Context) {
 	// Handle file upload logic here
 	var upload model.LykedUploads
+	var user modelPG.User
+
 	if err := c.ShouldBindJSON(&upload); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid upload data"})
+		return
+	}
+	if upload.UserID == "" {
+		c.JSON(400, gin.H{"error": "User ID is required"})
+		return
+	}
+	if upload.VideoLink == "" {
+		c.JSON(400, gin.H{"error": "Video Link is required"})
+		return
+	}
+
+	// Check if database connection is available
+	if PDB.PostgresDB == nil {
+		c.JSON(500, gin.H{"error": "Database connection not available"})
+		return
+	}
+
+	err := PDB.PostgresDB.Where("id = ?", upload.UserID).First(&user).Error
+	if err != nil {
+		c.JSON(400, gin.H{"error": "User not found", "details": err.Error(), "user_id": upload.UserID})
 		return
 	}
 
